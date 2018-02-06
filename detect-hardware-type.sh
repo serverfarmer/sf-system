@@ -62,6 +62,8 @@ elif [ "`dmesg |grep Hyper-V`" != "" ]; then
 	echo "guest"      # ms hyper-v
 elif [ "`dmesg |grep QEMU`" != "" ]; then
 	echo "guest"      # kvm/qemu
+elif [ "`dmesg |grep KVM`" != "" ]; then
+	echo "guest"      # kvm/qemu
 else
 	echo "physical"
 fi
