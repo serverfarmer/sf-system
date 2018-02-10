@@ -52,6 +52,9 @@ elif [ -d /sys/class/dmi/id ] && [ "`cat /sys/class/dmi/id/*_vendor |grep Bochs`
 elif [ -f /proc/cpuinfo ] && [ "`cat /proc/cpuinfo |grep \"User Mode Linux\"`" != "" ]; then
 	echo "guest"      # uml
 
+elif [ -f /proc/sysinfo ] && [ "`cat /proc/sysinfo |grep QNAP`" != "" ]; then
+	echo "oem"        # qnap
+
 elif [ "`dmesg |grep VirtualBox`" != "" ]; then
 	echo "guest"      # virtualbox
 elif [ "`dmesg |grep VBOX`" != "" ]; then

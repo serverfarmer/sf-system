@@ -14,6 +14,8 @@ detect_os_type()
 		echo "netbsd"
 	elif [ -f /bsd ] && [ -f /bsd.rd ]; then
 		echo "openbsd"
+	elif [ -d /mnt/HDA_ROOT/.config ]; then
+		echo "qnap"
 	else
 		echo "generic"
 	fi
@@ -202,6 +204,12 @@ detect_freebsd_version()
 	esac
 }
 
+detect_qnap_version()
+{
+	VER=`grep ^Version /etc/default_config/uLinux.conf |head -n1 |awk "{ print \\$3 }" |cut -d. -f1`
+	echo "qnap-qts$VER"
+}
+
 
 TYPE="`detect_os_type`"
 
@@ -226,6 +234,9 @@ else
 			;;
 		freebsd)
 			echo "`detect_freebsd_version`"
+			;;
+		qnap)
+			echo "`detect_qnap_version`"
 			;;
 		*)
 			exit 1
