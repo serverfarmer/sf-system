@@ -134,6 +134,12 @@ detect_redhat_version()
 				;;
 		esac
 
+	elif [ -f /etc/fedora-release ] && [ -f /etc/os-release ]; then
+		. /etc/os-release
+		if [ "$NAME" = "Fedora" ] && [ "$VERSION_ID" != "" ]; then
+			echo "redhat-fedora$VERSION_ID"
+		fi
+
 	else
 		DATA=`cat /etc/redhat-release`
 		case "$DATA" in
