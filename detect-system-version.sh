@@ -114,7 +114,7 @@ detect_redhat_version()
 			"CentOS release 5.10 (Final)" | "CentOS release 5.11 (Final)")
 				echo "redhat-centos5-elastix"
 				;;
-			"CentOS release 6.4 (Final)")
+			"CentOS release 6.4 (Final)" | "CentOS release 6.5 (Final)" | "CentOS release 6.6 (Final)" | "CentOS release 6.7 (Final)" | "CentOS release 6.8 (Final)" | "CentOS release 6.9 (Final)")
 				echo "redhat-centos6-elastix"
 				;;
 			"CentOS Linux release 7.0.1406 (Core) " | "CentOS Linux release 7.1.1503 (Core) ")
@@ -127,7 +127,7 @@ detect_redhat_version()
 	elif [ -d /usr/local/cpanel ]; then
 		DATA=`cat /etc/redhat-release`
 		case "$DATA" in
-			"CentOS release 6.6 (Final)")
+			"CentOS release 6.4 (Final)" | "CentOS release 6.5 (Final)" | "CentOS release 6.6 (Final)" | "CentOS release 6.7 (Final)" | "CentOS release 6.8 (Final)" | "CentOS release 6.9 (Final)")
 				echo "redhat-centos6-cpanel"
 				;;
 			*)
@@ -146,7 +146,7 @@ detect_redhat_version()
 			"CentOS release 5.11 (Final)")
 				echo "redhat-centos5"
 				;;
-			"CentOS release 6.6 (Final)")
+			"CentOS release 6.4 (Final)" | "CentOS release 6.5 (Final)" | "CentOS release 6.6 (Final)" | "CentOS release 6.7 (Final)" | "CentOS release 6.8 (Final)" | "CentOS release 6.9 (Final)")
 				echo "redhat-centos6"
 				;;
 			"CentOS Linux release 7.1.1503 (Core) ")
