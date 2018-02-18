@@ -8,6 +8,8 @@ detect_os_type()
 		echo "redhat"
 	elif [ -f /etc/SuSE-release ]; then
 		echo "suse"
+	elif [ -f /etc/slackware-version ]; then
+		echo "slackware"
 	elif [ -f /etc/freebsd-update.conf ]; then
 		echo "freebsd"
 	elif [ -x /netbsd ]; then
@@ -28,16 +30,16 @@ detect_debian_raw_version()
 		4.0)
 			echo "debian-etch"
 			;;
-		5.0 | 5.0.? | 5.0.10)
+		5.0 | 5.0.? | 5.0.1?)
 			echo "debian-lenny"
 			;;
-		6.0 | 6.0.? | 6.0.10)
+		6.0 | 6.0.? | 6.0.1?)
 			echo "debian-squeeze"
 			;;
-		7.?)
+		7.? | 7.1?)
 			echo "debian-wheezy"
 			;;
-		8.?)
+		8.? | 8.1?)
 			echo "debian-jessie"
 			;;
 		9.?)
@@ -177,6 +179,16 @@ detect_suse_version()
 	fi
 }
 
+detect_slackware_version()
+{
+	if [ -f /etc/os-release ]; then
+		. /etc/os-release
+		echo "slackware-`echo $VERSION_ID |cut -d. -f 1`"
+	else
+		echo "slackware-legacy"
+	fi
+}
+
 detect_netbsd_version()
 {
 	DATA=`uname -r`
@@ -231,6 +243,9 @@ else
 			;;
 		suse)
 			echo "`detect_suse_version`"
+			;;
+		slackware)
+			echo "`detect_slackware_version`"
 			;;
 		netbsd)
 			echo "`detect_netbsd_version`"
