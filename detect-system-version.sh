@@ -51,6 +51,34 @@ detect_debian_raw_version()
 	esac
 }
 
+detect_redhat_raw_version()
+{
+	DATA=`cat /etc/redhat-release`
+	case "$DATA" in
+		"CentOS release 5.10 (Final)" | "CentOS release 5.11 (Final)")
+			echo "redhat-centos5"
+			;;
+		"CentOS release 6.4 (Final)" | "CentOS release 6.5 (Final)" | "CentOS release 6.6 (Final)" | "CentOS release 6.7 (Final)" | "CentOS release 6.8 (Final)" | "CentOS release 6.9 (Final)")
+			echo "redhat-centos6"
+			;;
+		"CentOS Linux release 7.0.1406 (Core) " | "CentOS Linux release 7.1.1503 (Core) ")
+			echo "redhat-centos7"
+			;;
+		"Red Hat Enterprise Linux Server release 5.5 (Tikanga)")
+			echo "redhat-rhel5"
+			;;
+		"Red Hat Enterprise Linux Server release 6.6 (Santiago)")
+			echo "redhat-rhel6"
+			;;
+		"Red Hat Enterprise Linux Server release 7.1 (Maipo)")
+			echo "redhat-rhel7"
+			;;
+		*)
+			echo "redhat-generic"
+			;;
+	esac
+}
+
 detect_debian_version()
 {
 	if [ -f /etc/lsb-release ]; then
@@ -62,6 +90,8 @@ detect_debian_version()
 			else
 				echo "ubuntu-$DISTRIB_CODENAME"
 			fi
+		else
+			echo "ubuntu-generic"
 		fi
 
 	elif [ -f /etc/rpi-issue ]; then
@@ -71,6 +101,7 @@ detect_debian_version()
 				echo "raspbian-jessie"
 				;;
 			*)
+				echo "raspbian-generic"
 				;;
 		esac
 
@@ -81,6 +112,7 @@ detect_debian_version()
 				echo "devuan-jessie"
 				;;
 			*)
+				echo "devuan-generic"
 				;;
 		esac
 
@@ -107,32 +139,7 @@ detect_redhat_version()
 				echo "redhat-oracle7"
 				;;
 			*)
-				;;
-		esac
-
-	elif [ -f /etc/elastix.conf ]; then
-		DATA=`cat /etc/redhat-release`
-		case "$DATA" in
-			"CentOS release 5.10 (Final)" | "CentOS release 5.11 (Final)")
-				echo "redhat-centos5-elastix"
-				;;
-			"CentOS release 6.4 (Final)" | "CentOS release 6.5 (Final)" | "CentOS release 6.6 (Final)" | "CentOS release 6.7 (Final)" | "CentOS release 6.8 (Final)" | "CentOS release 6.9 (Final)")
-				echo "redhat-centos6-elastix"
-				;;
-			"CentOS Linux release 7.0.1406 (Core) " | "CentOS Linux release 7.1.1503 (Core) ")
-				echo "redhat-centos7-elastix"
-				;;
-			*)
-				;;
-		esac
-
-	elif [ -d /usr/local/cpanel ]; then
-		DATA=`cat /etc/redhat-release`
-		case "$DATA" in
-			"CentOS release 6.4 (Final)" | "CentOS release 6.5 (Final)" | "CentOS release 6.6 (Final)" | "CentOS release 6.7 (Final)" | "CentOS release 6.8 (Final)" | "CentOS release 6.9 (Final)")
-				echo "redhat-centos6-cpanel"
-				;;
-			*)
+				echo "redhat-generic-oracle"
 				;;
 		esac
 
@@ -140,32 +147,16 @@ detect_redhat_version()
 		. /etc/os-release
 		if [ "$NAME" = "Fedora" ] && [ "$VERSION_ID" != "" ]; then
 			echo "redhat-fedora$VERSION_ID"
+		else
+			echo "redhat-generic-fedora"
 		fi
 
+	elif [ -f /etc/elastix.conf ]; then
+		echo "`detect_redhat_raw_version`-elastix"
+	elif [ -d /usr/local/cpanel ]; then
+		echo "`detect_redhat_raw_version`-cpanel"
 	else
-		DATA=`cat /etc/redhat-release`
-		case "$DATA" in
-			"CentOS release 5.11 (Final)")
-				echo "redhat-centos5"
-				;;
-			"CentOS release 6.4 (Final)" | "CentOS release 6.5 (Final)" | "CentOS release 6.6 (Final)" | "CentOS release 6.7 (Final)" | "CentOS release 6.8 (Final)" | "CentOS release 6.9 (Final)")
-				echo "redhat-centos6"
-				;;
-			"CentOS Linux release 7.1.1503 (Core) ")
-				echo "redhat-centos7"
-				;;
-			"Red Hat Enterprise Linux Server release 5.5 (Tikanga)")
-				echo "redhat-rhel5"
-				;;
-			"Red Hat Enterprise Linux Server release 6.6 (Santiago)")
-				echo "redhat-rhel6"
-				;;
-			"Red Hat Enterprise Linux Server release 7.1 (Maipo)")
-				echo "redhat-rhel7"
-				;;
-			*)
-				;;
-		esac
+		echo "`detect_redhat_raw_version`"
 	fi
 }
 
@@ -175,7 +166,7 @@ detect_suse_version()
 		. /etc/os-release
 		echo "suse-`echo $VERSION_ID |cut -d. -f 1`"
 	else
-		echo "suse-legacy"
+		echo "suse-generic"
 	fi
 }
 
@@ -185,7 +176,7 @@ detect_slackware_version()
 		. /etc/os-release
 		echo "slackware-`echo $VERSION_ID |cut -d. -f 1`"
 	else
-		echo "slackware-legacy"
+		echo "slackware-generic"
 	fi
 }
 
@@ -197,6 +188,7 @@ detect_netbsd_version()
 			echo "netbsd-6"
 			;;
 		*)
+			echo "netbsd-generic"
 			;;
 	esac
 }
@@ -218,6 +210,7 @@ detect_freebsd_version()
 			echo "freebsd-10"
 			;;
 		*)
+			echo "freebsd-generic"
 			;;
 	esac
 }
