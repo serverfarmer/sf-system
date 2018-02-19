@@ -16,7 +16,7 @@ detect_os_type()
 		echo "netbsd"
 	elif [ -f /bsd ] && [ -f /bsd.rd ]; then
 		echo "openbsd"
-	elif [ -d /mnt/HDA_ROOT/.config ]; then
+	elif [ -f /etc/config/qpkg.conf ]; then
 		echo "qnap"
 	else
 		echo "generic"
