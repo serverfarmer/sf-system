@@ -6,6 +6,8 @@ detect_os_type()
 		echo "debian"
 	elif [ -f /etc/redhat-release ]; then
 		echo "redhat"
+	elif [ -f /etc/os-release ] && [ -f /etc/image-id ]; then
+		echo "amazon"
 	elif [ -f /etc/SuSE-release ]; then
 		echo "suse"
 	elif [ -f /etc/slackware-version ]; then
@@ -160,6 +162,12 @@ detect_redhat_version()
 	fi
 }
 
+detect_amazon_version()
+{
+	. /etc/os-release
+	echo "amazon-`echo $VERSION_ID |cut -d. -f 1`"
+}
+
 detect_suse_version()
 {
 	if [ -f /etc/os-release ]; then
@@ -233,6 +241,9 @@ else
 			;;
 		redhat)
 			echo "`detect_redhat_version`"
+			;;
+		amazon)
+			echo "`detect_amazon_version`"
 			;;
 		suse)
 			echo "`detect_suse_version`"
