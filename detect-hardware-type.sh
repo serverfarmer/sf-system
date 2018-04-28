@@ -55,17 +55,17 @@ elif [ -f /proc/cpuinfo ] && [ "`cat /proc/cpuinfo |grep \"User Mode Linux\"`" !
 elif [ -f /proc/sysinfo ] && [ "`cat /proc/sysinfo |grep QNAP`" != "" ]; then
 	echo "oem"        # qnap
 
-elif [ "`dmesg |grep VirtualBox`" != "" ]; then
+elif [ "`dmesg |grep -v 'db cert' |grep VirtualBox`" != "" ]; then
 	echo "guest"      # virtualbox
-elif [ "`dmesg |grep VBOX`" != "" ]; then
+elif [ "`dmesg |grep -v 'db cert' |grep VBOX`" != "" ]; then
 	echo "guest"      # virtualbox
-elif [ "`dmesg |grep VMware`" != "" ]; then
+elif [ "`dmesg |grep -v 'db cert' |grep VMware`" != "" ]; then
 	echo "guest"      # vmware
-elif [ "`dmesg |grep Hyper-V`" != "" ]; then
+elif [ "`dmesg |grep -v 'db cert' |grep Hyper-V`" != "" ]; then
 	echo "guest"      # ms hyper-v
-elif [ "`dmesg |grep QEMU`" != "" ]; then
+elif [ "`dmesg |grep -v 'db cert' |grep QEMU`" != "" ]; then
 	echo "guest"      # kvm/qemu
-elif [ "`dmesg |grep KVM`" != "" ]; then
+elif [ "`dmesg |grep -v 'db cert' |grep KVM`" != "" ]; then
 	echo "guest"      # kvm/qemu
 else
 	echo "physical"
