@@ -1,4 +1,4 @@
-#!/usr/bin/php5
+#!/usr/bin/php
 <?php
 // Show the current machine configuration.
 // Tomasz Klim, May 2011, May 2015
