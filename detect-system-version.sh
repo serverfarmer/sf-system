@@ -113,6 +113,9 @@ detect_debian_version()
 			jessie)
 				echo "devuan-jessie"
 				;;
+			ascii | ascii/ceres)
+				echo "devuan-ascii"
+				;;
 			*)
 				echo "devuan-generic"
 				;;
