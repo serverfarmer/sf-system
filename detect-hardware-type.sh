@@ -12,6 +12,9 @@ elif [ -d /proc/vz ] && [ ! -f /proc/vz/version ]; then
 elif [ -f /proc/self/status ] && grep -iq vxid /proc/self/status; then
 	echo "container"  # linux-vserver
 
+elif [ -d /sys/class/dmi/id ] && grep -q "Amazon EC2" /sys/class/dmi/id/*_vendor; then
+	echo "guest"      # kvm/qemu or xen
+
 elif [ -f /sys/devices/virtual/dmi/id/product_name ] && grep -q VirtualBox /sys/devices/virtual/dmi/id/product_name; then
 	echo "guest"      # virtualbox
 elif [ -d /sys/class/dmi/id ] && grep -q innotek /sys/class/dmi/id/*_vendor; then
