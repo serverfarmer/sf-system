@@ -228,7 +228,7 @@ detect_freebsd_version()
 
 detect_qnap_version()
 {
-	VER=`grep ^Version /etc/default_config/uLinux.conf |head -n1 |awk "{ print \\$3 }" |cut -d. -f1`
+	VER=`grep ^Version /etc/default_config/uLinux.conf |head -n1 |awk '{ print $3 }' |cut -d. -f1`
 	echo "qnap-qts$VER"
 }
 

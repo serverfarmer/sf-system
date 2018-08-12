@@ -1,58 +1,58 @@
 #!/bin/sh
 
-if [ -f /proc/1/environ ] && [ "`cat /proc/1/environ |grep lxc`" != "" ]; then
+if [ -f /proc/1/environ ] && grep -q lxc /proc/1/environ; then
 	echo "lxc"
-elif [ -f /run/systemd/container ] && [ "`cat /run/systemd/container |grep lxc`" != "" ]; then
+elif [ -f /run/systemd/container ] && grep -q lxc /run/systemd/container; then
 	echo "lxc"
 
-elif [ -f /run/systemd/container ] && [ "`cat /run/systemd/container |grep systemd-nspawn`" != "" ]; then
+elif [ -f /run/systemd/container ] && grep -q systemd-nspawn /run/systemd/container; then
 	echo "container"  # nspawn
 elif [ -d /proc/vz ] && [ ! -f /proc/vz/version ]; then
 	echo "container"  # openvz
-elif [ -f /proc/self/status ] && [ "`cat /proc/self/status |grep -i vxid`" != "" ]; then
+elif [ -f /proc/self/status ] && grep -iq vxid /proc/self/status; then
 	echo "container"  # linux-vserver
 
-elif [ -f /sys/devices/virtual/dmi/id/product_name ] && [ "`cat /sys/devices/virtual/dmi/id/product_name |grep VirtualBox`" != "" ]; then
+elif [ -f /sys/devices/virtual/dmi/id/product_name ] && grep -q VirtualBox /sys/devices/virtual/dmi/id/product_name; then
 	echo "guest"      # virtualbox
-elif [ -d /sys/class/dmi/id ] && [ "`cat /sys/class/dmi/id/*_vendor |grep innotek`" != "" ]; then
+elif [ -d /sys/class/dmi/id ] && grep -q innotek /sys/class/dmi/id/*_vendor; then
 	echo "guest"      # virtualbox
-elif [ -f /proc/scsi/scsi ] && [ "`cat /proc/scsi/scsi |grep -i \"VBOX HARDDISK\"`" != "" ]; then
+elif [ -f /proc/scsi/scsi ] && grep -iq "VBOX HARDDISK" /proc/scsi/scsi; then
 	echo "guest"      # virtualbox
 
-elif [ -f /proc/scsi/scsi ] && [ "`cat /proc/scsi/scsi |grep -i vmware`" != "" ]; then
+elif [ -f /proc/scsi/scsi ] && grep -iq vmware /proc/scsi/scsi; then
 	echo "guest"      # vmware
-elif [ -d /sys/class/dmi/id ] && [ "`cat /sys/class/dmi/id/*_vendor |egrep \"(VMware|VMW)\"`" != "" ]; then
+elif [ -d /sys/class/dmi/id ] && egrep -q "(VMware|VMW)" /sys/class/dmi/id/*_vendor; then
 	echo "guest"      # vmware
 
 elif [ -x /usr/bin/lspci ] && [ "`/usr/bin/lspci |grep Hyper-V`" != "" ]; then
 	echo "guest"      # ms hyper-v
-elif [ -d /sys/class/dmi/id ] && [ "`cat /sys/class/dmi/id/*_vendor |grep \"Microsoft Corporation\"`" != "" ]; then
+elif [ -d /sys/class/dmi/id ] && grep -q "Microsoft Corporation" /sys/class/dmi/id/*_vendor; then
 	echo "guest"      # ms virtualpc or hyper-v
 
-elif [ -f /proc/cpuinfo ] && [ "`cat /proc/cpuinfo |grep \"QEMU Virtual CPU\"`" != "" ]; then
+elif [ -f /proc/cpuinfo ] && grep -q "QEMU Virtual CPU" /proc/cpuinfo; then
 	echo "guest"      # kvm/qemu
-elif [ -f /proc/scsi/scsi ] && [ "`cat /proc/scsi/scsi |grep -i QEMU`" != "" ]; then
+elif [ -f /proc/scsi/scsi ] && grep -iq QEMU /proc/scsi/scsi; then
 	echo "guest"      # kvm/qemu
-elif [ -d /sys/class/dmi/id ] && [ "`cat /sys/class/dmi/id/*_vendor |grep QEMU`" != "" ]; then
+elif [ -d /sys/class/dmi/id ] && grep -q QEMU /sys/class/dmi/id/*_vendor; then
 	echo "guest"      # kvm/qemu
-elif [ -d /sys/class/dmi/id ] && [ "`cat /sys/class/dmi/id/*_vendor |grep Google`" != "" ]; then
+elif [ -d /sys/class/dmi/id ] && grep -q Google /sys/class/dmi/id/*_vendor; then
 	echo "guest"      # kvm/qemu
 elif [ -d /dev/disk/by-id ] && [ "`ls /dev/disk/by-id/ata-* 2>/dev/null |grep QEMU_HARDDISK`" != "" ]; then
 	echo "guest"      # kvm/qemu
 
-elif [ -d /sys/class/dmi/id ] && [ "`cat /sys/class/dmi/id/*_vendor |grep Xen`" != "" ]; then
+elif [ -d /sys/class/dmi/id ] && grep -q Xen /sys/class/dmi/id/*_vendor; then
 	echo "guest"      # xen
 elif [ -f /proc/xen/capabilities ]; then
 	echo "guest"      # xen
-elif [ -f /sys/hypervisor/type ] && [ "`cat /sys/hypervisor/type |grep -i xen`" != "" ]; then
+elif [ -f /sys/hypervisor/type ] && grep -iq xen /sys/hypervisor/type; then
 	echo "guest"      # xen
 
-elif [ -d /sys/class/dmi/id ] && [ "`cat /sys/class/dmi/id/*_vendor |grep Bochs`" != "" ]; then
+elif [ -d /sys/class/dmi/id ] && grep -q Bochs /sys/class/dmi/id/*_vendor; then
 	echo "guest"      # bochs
-elif [ -f /proc/cpuinfo ] && [ "`cat /proc/cpuinfo |grep \"User Mode Linux\"`" != "" ]; then
+elif [ -f /proc/cpuinfo ] && grep -q "User Mode Linux" /proc/cpuinfo; then
 	echo "guest"      # uml
 
-elif [ -f /proc/sysinfo ] && [ "`cat /proc/sysinfo |grep QNAP`" != "" ]; then
+elif [ -f /proc/sysinfo ] && grep -q QNAP /proc/sysinfo; then
 	echo "oem"        # qnap
 
 elif [ "`dmesg |grep -v 'db cert' |grep VirtualBox`" != "" ]; then
