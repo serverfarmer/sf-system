@@ -58,18 +58,8 @@ elif [ -f /proc/cpuinfo ] && grep -q "User Mode Linux" /proc/cpuinfo; then
 elif [ -f /proc/sysinfo ] && grep -q QNAP /proc/sysinfo; then
 	echo "oem"        # qnap
 
-elif [ "`dmesg |grep -v 'db cert' |grep VirtualBox`" != "" ]; then
-	echo "guest"      # virtualbox
-elif [ "`dmesg |grep -v 'db cert' |grep VBOX`" != "" ]; then
-	echo "guest"      # virtualbox
-elif [ "`dmesg |grep -v 'db cert' |grep VMware`" != "" ]; then
-	echo "guest"      # vmware
-elif [ "`dmesg |grep -v 'db cert' |grep Hyper-V`" != "" ]; then
-	echo "guest"      # ms hyper-v
-elif [ "`dmesg |grep -v 'db cert' |grep QEMU`" != "" ]; then
-	echo "guest"      # kvm/qemu
-elif [ "`dmesg |grep -v 'db cert' |grep KVM`" != "" ]; then
-	echo "guest"      # kvm/qemu
+elif [ "`dmesg |grep -v 'db cert' |egrep '(VirtualBox|VBOX|VMware|Hyper-V|QEMU|KVM)'`" != "" ]; then
+	echo "guest"
 else
 	echo "physical"
 fi
