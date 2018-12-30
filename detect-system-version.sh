@@ -102,6 +102,9 @@ detect_debian_version()
 			8.?)
 				echo "raspbian-jessie"
 				;;
+			9.?)
+				echo "raspbian-stretch"
+				;;
 			*)
 				echo "raspbian-generic"
 				;;
