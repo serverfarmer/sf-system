@@ -75,6 +75,9 @@ detect_redhat_raw_version()
 		"Red Hat Enterprise Linux Server release 7.1 (Maipo)")
 			echo "redhat-rhel7"
 			;;
+		"Red Hat Enterprise Linux release 8.0 (Ootpa)")
+			echo "redhat-rhel8"
+			;;
 		*)
 			echo "redhat-generic"
 			;;
