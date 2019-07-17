@@ -47,6 +47,9 @@ detect_debian_raw_version()
 		9.?)
 			echo "debian-stretch"
 			;;
+		10.?)
+			echo "debian-buster"
+			;;
 		*)
 			echo "debian-generic"
 			;;
