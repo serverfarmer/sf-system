@@ -1,11 +1,15 @@
 #!/bin/sh
 
-# TODO: support for arm64/armel/armhf, at least for:
-#       - Raspberry Pi
-#       - AWS A1 instances
+mach=`uname -m`
 
-if [ "`uname -m`" = "x86_64" ]; then
+if [ "$mach" = "x86_64" ]; then
 	echo "amd64"
+elif [ "$mach" = "aarch64" ]; then  # Amazon EC2 A1 instances
+	echo "arm64"
+elif [ "$mach" = "armv7l" ]; then  # Raspberry Pi
+	echo "armhf"
+elif [ "$mach" = "armv5tel" ]; then  # QNAP TS-410
+	echo "armel"
 else
 	echo "i386"
 fi
