@@ -75,7 +75,7 @@ detect_redhat_raw_version()
 		"Red Hat Enterprise Linux Server release 6.6 (Santiago)")
 			echo "redhat-rhel6"
 			;;
-		"Red Hat Enterprise Linux Server release 7.1 (Maipo)")
+		"Red Hat Enterprise Linux Server release 7.1 (Maipo)" | "Red Hat Enterprise Linux Server release 7.2 (Maipo)")
 			echo "redhat-rhel7"
 			;;
 		"Red Hat Enterprise Linux release 8.0 (Ootpa)")
