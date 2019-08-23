@@ -58,33 +58,14 @@ detect_debian_raw_version()
 
 detect_redhat_raw_version()
 {
-	DATA=`cat /etc/redhat-release`
-	case "$DATA" in
-		"CentOS release 5.10 (Final)" | "CentOS release 5.11 (Final)")
-			echo "redhat-centos5"
-			;;
-		"CentOS release 6.4 (Final)" | "CentOS release 6.5 (Final)" | "CentOS release 6.6 (Final)" | "CentOS release 6.7 (Final)" | "CentOS release 6.8 (Final)" | "CentOS release 6.9 (Final)")
-			echo "redhat-centos6"
-			;;
-		"CentOS Linux release 7.0.1406 (Core) " | "CentOS Linux release 7.1.1503 (Core) ")
-			echo "redhat-centos7"
-			;;
-		"Red Hat Enterprise Linux Server release 5.5 (Tikanga)")
-			echo "redhat-rhel5"
-			;;
-		"Red Hat Enterprise Linux Server release 6.6 (Santiago)")
-			echo "redhat-rhel6"
-			;;
-		"Red Hat Enterprise Linux Server release 7.1 (Maipo)" | "Red Hat Enterprise Linux Server release 7.2 (Maipo)")
-			echo "redhat-rhel7"
-			;;
-		"Red Hat Enterprise Linux release 8.0 (Ootpa)")
-			echo "redhat-rhel8"
-			;;
-		*)
-			echo "redhat-generic"
-			;;
-	esac
+	VER=`cat /etc/redhat-release |egrep -o '([0-9]{1,2}\.){1,2}[0-9]{1,4}' |cut -d. -f1`
+	if [ -s /etc/oracle-release ] && grep -q "Oracle Linux" /etc/oracle-release; then
+		echo "redhat-oracle$VER"
+	elif grep -q CentOS /etc/redhat-release; then
+		echo "redhat-centos$VER"
+	elif grep -q "Red Hat Enterprise Linux" /etc/redhat-release; then
+		echo "redhat-rhel$VER"
+	fi
 }
 
 detect_debian_version()
@@ -143,21 +124,7 @@ detect_debian_version()
 
 detect_redhat_version()
 {
-	if [ -f /etc/oracle-release ]; then
-		DATA=`cat /etc/oracle-release`
-		case "$DATA" in
-			"Oracle Linux Server release 6.2" | "Oracle Linux Server release 6.3" | "Oracle Linux Server release 6.6")
-				echo "redhat-oracle6"
-				;;
-			"Oracle Linux Server release 7.1")
-				echo "redhat-oracle7"
-				;;
-			*)
-				echo "redhat-generic-oracle"
-				;;
-		esac
-
-	elif [ -f /etc/fedora-release ] && [ -f /etc/os-release ]; then
+	if [ -f /etc/fedora-release ] && [ -f /etc/os-release ]; then
 		. /etc/os-release
 		if [ "$NAME" = "Fedora" ] && [ "$VERSION_ID" != "" ]; then
 			echo "redhat-fedora$VERSION_ID"
