@@ -65,6 +65,8 @@ detect_redhat_raw_version()
 		echo "redhat-centos$VER"
 	elif grep -q "Red Hat Enterprise Linux" /etc/redhat-release; then
 		echo "redhat-rhel$VER"
+	else
+		echo "redhat-generic$VER"
 	fi
 }
 
