@@ -94,6 +94,9 @@ detect_debian_version()
 			9.?)
 				echo "raspbian-stretch"
 				;;
+			10.?)
+				echo "raspbian-buster"
+				;;
 			*)
 				echo "raspbian-generic"
 				;;
