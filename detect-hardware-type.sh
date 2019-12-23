@@ -27,7 +27,7 @@ elif [ -f /proc/scsi/scsi ] && grep -iq vmware /proc/scsi/scsi; then
 elif [ -d /sys/class/dmi/id ] && egrep -q "(VMware|VMW)" /sys/class/dmi/id/*_vendor; then
 	echo "guest"      # vmware
 
-elif [ -x /usr/bin/lspci ] && ! grep -iq allwinner /proc/cpuinfo && [ "`/usr/bin/lspci |grep Hyper-V`" != "" ]; then
+elif [ -x /usr/bin/lspci ] && ! grep -iq allwinner /proc/cpuinfo && [ "`/usr/bin/lspci 2>/dev/null |grep Hyper-V`" != "" ]; then
 	echo "guest"      # ms hyper-v
 elif [ -d /sys/class/dmi/id ] && grep -q "Microsoft Corporation" /sys/class/dmi/id/*_vendor; then
 	echo "guest"      # ms virtualpc or hyper-v
