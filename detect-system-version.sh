@@ -50,6 +50,9 @@ detect_debian_raw_version()
 		10.?)
 			echo "debian-buster"
 			;;
+		11.?)
+			echo "debian-bullseye"
+			;;
 		*)
 			echo "debian-generic"
 			;;
