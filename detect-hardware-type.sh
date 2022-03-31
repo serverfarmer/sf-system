@@ -58,7 +58,7 @@ elif [ -f /proc/cpuinfo ] && grep -q "User Mode Linux" /proc/cpuinfo; then
 elif [ -f /proc/sysinfo ] && grep -q QNAP /proc/sysinfo; then
 	echo "oem"        # qnap
 
-elif [ "`dmesg |grep -v 'X.509 cert' |grep -v 'db cert' |egrep '(VirtualBox|VBOX|VMware|Hyper-V|QEMU|KVM)'`" != "" ]; then
+elif [ "`dmesg |grep -v 'X.509 cert' |grep -v 'db cert' |grep -v shengxiangzuo |egrep '(VirtualBox|VBOX|VMware|Hyper-V|QEMU|KVM)'`" != "" ]; then
 	echo "guest"
 else
 	echo "physical"
